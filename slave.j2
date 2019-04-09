@@ -4,7 +4,7 @@ services:
   pdi-srv:
     build: .
     {% for i in range(slave_number) %}
-    container_name: pentaho-master-{{ i }}
+    container_name: pentaho-salve-{{ i }}
     {% endfor %}
     command: 'master'
     network_mode: host
