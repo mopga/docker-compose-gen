@@ -10,13 +10,13 @@ max_log_timeout: 1440
 max_obj_timeot: 240
 
 server_name: slave
-server_host: 10.0.2.31
+server_host: 127.0.0.1
 server_port: 8480
 server_user: admin
 server_passwd: admin
 
 master_name: master
-master_host: 10.0.2.31
+master_host: 127.0.0.1
 master_port: 8480
 master_user: admin
 master_passwd: admin
