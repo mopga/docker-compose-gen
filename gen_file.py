@@ -1,16 +1,14 @@
-def gen_file():
+def gen_file(server_type):
 
     import jinja2
     from cfg_loader import load_yaml
-
+    server_type = server_type + '.j2'
     templateFilePath = jinja2.FileSystemLoader('./')
     jinjaEnv = jinja2.Environment(loader=templateFilePath)
-    jtemplMaster = jinjaEnv.get_template("master.j2")
-    jtemplSlave = jinjaEnv.get_template("slave.j2")
+    jtemplserver = jinjaEnv.get_template(server_type)
 
     conf = load_yaml('config.yml')
 
-    outputMaster = jtemplMaster.render(conf)
-    outputSlave = jtemplSlave.render(conf)
-    print("\nConfMaster:\n", outputMaster)
-    print("\nConfSlaver:\n", outputSlave)
+    outputsrv = jtemplserver.render(conf)
+    print("\nConfMaster:\n", outputsrv)
+

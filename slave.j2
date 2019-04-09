@@ -12,11 +12,11 @@ services:
       - ./log/tmp:/tmp:rw
       - ./log/pdi:/home/pdi/data-integration/logs:rw
     environment:
-      PENTAHO_DI_JAVA_OPTIONS: {{ java_opts_master }}
+      PENTAHO_DI_JAVA_OPTIONS: {{ java_opts_slave }}
       PDI_MAX_LOG_LINES: {{ max_log_line }}
       PDI_MAX_LOG_TIMEOUT: {{ max_log_timeout }}
       PDI_MAX_OBJ_TIMEOUT: {{ max_obj_timeot }}
-      SERVER_NAME: {{ master_name }}
+      SERVER_NAME: {{ server_name }}
       SERVER_HOST: {{ server_host }}
       SERVER_PORT: {{ final_port }}
       SERVER_USER: {{ server_user }}
