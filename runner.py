@@ -1,7 +1,6 @@
-from cfg_loader import load_yaml
+from gen_file import gen_file
 
-conf = load_yaml('config.yml')
+gen_file()
 
-print(conf['cpu_limit_slave'])
 
 
