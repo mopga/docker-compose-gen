@@ -1,4 +1,6 @@
-# pentaho_runner
+# docker-compose-gen
 
-Small project ro generate docker-compose files for PENTAHO DI masters or slaves and run them.
+Small project ro generate docker-compose files and run them.
+
+
 
