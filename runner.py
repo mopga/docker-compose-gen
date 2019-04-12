@@ -1,15 +1,61 @@
-import jinja2
+from jinja2 import Environment
 import ruamel.yaml as yaml
 
+master_template = """\
+version: '2.2'
 
-def gen_file(server_type):
+services:
+  pdi-srv:
+    build: .
+    container_name: {{ container_name }}-{{ i }}
+    command: 'master'
+    network_mode: host
+    volumes:
+      - ./log/tmp:/tmp:rw
+      - ./log/pdi:/home/pdi/data-integration/logs:rw
+    environment:
+      PENTAHO_DI_JAVA_OPTIONS: {{ java_opts_master }}
+      PDI_MAX_LOG_LINES: {{ max_log_line }}
+      PDI_MAX_LOG_TIMEOUT: {{ max_log_timeout }}
+      PDI_MAX_OBJ_TIMEOUT: {{ max_obj_timeot }}
+      SERVER_NAME: {{ master_name }}
+      SERVER_HOST: {{ server_host }}
+      SERVER_PORT: {{ final_port }}
+      SERVER_USER: {{ server_user }}
+      SERVER_PASSWD: {{ server_passwd }}
+    cpus: {{ cpu_limit_master }}
+"""
 
-    server_type = server_type + '.j2'
-    templateFilePath = jinja2.FileSystemLoader('./')
-    jinjaEnv = jinja2.Environment(loader=templateFilePath)
-    jtemplserver = jinjaEnv.get_template(server_type)
+slave_template = """\
+version: '2.2'
+
+services:
+  pdi-srv:
+    build: .
+    container_name: {{ container_name }}-{{ i }}
+    command: 'slave'
+    network_mode: host
+    volumes:
+      - ./log/tmp:/tmp:rw
+      - ./log/pdi:/home/pdi/data-integration/logs:rw
+    environment:
+      PENTAHO_DI_JAVA_OPTIONS: {{ java_opts_slave }}
+      PDI_MAX_LOG_LINES: {{ max_log_line }}
+      PDI_MAX_LOG_TIMEOUT: {{ max_log_timeout }}
+      PDI_MAX_OBJ_TIMEOUT: {{ max_obj_timeot }}
+      SERVER_NAME: {{ server_name }}
+      SERVER_HOST: {{ server_host }}
+      SERVER_PORT: {{ final_port }}
+      SERVER_USER: {{ server_user }}
+      SERVER_PASSWD: {{ server_passwd }}
+    cpus: {{ cpu_limit_slave }}
+"""
+
+
+def gen_file(template):
+
+    jtemplserver = Environment().from_string(template)
     conf = load_yaml('config.yml')
-
     outputsrv = jtemplserver.render(conf)
     return outputsrv
 
@@ -31,7 +77,7 @@ def load_yaml(filename, safe=True):
         raise
 
 
-print(gen_file('master'))
-print(gen_file('slave'))
+print(gen_file(master_template))
+print(gen_file(slave_template))
 
 
